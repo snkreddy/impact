@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: impact-fluentd
+  labels:
+    app: impact
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      env: development
+      name: impact-fluentd
+  template:
+    metadata:
+      name: impact-fluentd
+      labels:
+        env: development
+        name: impact-fluentd
+
+      namespace: impact
+    spec:
+      containers:
+        - name: fluentd
+          image: fluent/fluentd:v1.13.0-debian-1.0
+          ports:
+            - containerPort: 24224
