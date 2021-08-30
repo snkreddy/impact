@@ -5,7 +5,7 @@ metadata:
   labels:
     app: impact
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       env: development
@@ -22,5 +22,16 @@ spec:
       containers:
         - name: fluentd
           image: fluent/fluentd:v1.13.0-debian-1.0
+          volumeMounts:
+            - mountPath: /fluentd/etc
+              name: fluentd-conf
           ports:
             - containerPort: 24224
+      volumes:
+        - name: fluentd-conf
+          configMap:
+            defaultMode: 420
+            name: fluentd-conf
+            items:
+              - key: fluentd-conf
+                path: fluent.conf
